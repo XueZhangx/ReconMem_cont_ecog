@@ -1,0 +1,17 @@
+[DIR]
+exp_dir = ../../Experiment
+stimuli_dir = ../../Images
+
+[EXP]
+stimulus_duration = 2
+stimulus_blank = 0.5
+key_list = 0, 1
+pre_exp_time = 5
+post_exp_time = 5
+exp_mode = True
+scale = 1.5
+test_screen_width = 800
+test_screen_height = 600
+exp_screen_width = 1920
+exp_screen_height = 1080
+
