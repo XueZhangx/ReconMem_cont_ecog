@@ -1,4 +1,4 @@
-The task is to respond 0 to images that the subject didn't see and 1 to images that the subject has seen. 
+The task is to respond 0 to images that the subject didn't see and 1 to images that the subject has seen. They should try to respond as accurately and as quickly as possible. 
 
 To run practice, run the following. $subid can go from 1-50. Let's start from subject 2. 
 ```
