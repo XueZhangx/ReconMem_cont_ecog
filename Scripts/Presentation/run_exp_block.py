@@ -30,7 +30,7 @@ exp_screen_size = (int(exp_config['EXP']['exp_screen_width']), int(exp_config['E
 exp_df = pd.read_csv(curr_block_dir)
 
 # Create a logfile for current run
-timestamp = datetime.now().strftime('%Y%m%dT%H%M%S')google translate
+timestamp = datetime.now().strftime('%Y%m%dT%H%M%S')
 ses_info = 'Subject: {} \n BLock: {} \n'.format(sub, block)
 log_file = open(os.path.join(curr_sub_dir,
                              'experiment_log_block%02d_%s.txt' % (block, timestamp)), 'a')

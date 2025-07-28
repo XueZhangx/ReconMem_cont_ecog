@@ -9,7 +9,7 @@ from datetime import datetime
 exp_config = configparser.ConfigParser()
 exp_config.read('config')
 sub = int(sys.argv[1])
-block = 13
+block = 12
 
 exp_dir = exp_config['DIR']['exp_dir']
 stimuli_dir = exp_config['DIR']['stimuli_dir']
@@ -41,7 +41,7 @@ for curr_row in exp_df.iterrows():
             exp_df.loc[curr_row[0], 'Correct'] = 0
 
 # Create a logfile for current run
-timestamp = datetime.now().strftime('%Y%m%dT%H%M%S')google translate
+timestamp = datetime.now().strftime('%Y%m%dT%H%M%S')
 ses_info = 'Subject: {} \n BLock: {} \n'.format(sub, block)
 log_file = open(os.path.join(curr_sub_dir,
                              'experiment_log_block%02d_%s.txt' % (block, timestamp)), 'a')
@@ -118,6 +118,7 @@ while True:
     if stimulus_clock.getTime() - fixation_start >= 0.2:
         break
 
+
 # Now present the images
 onset_times = np.ones((len(stimuli_list), 1)) * np.nan
 offset_times = np.ones((len(stimuli_list), 1)) * np.nan
@@ -125,7 +126,7 @@ responses = np.ones((len(stimuli_list), 1)) * np.nan
 RTs = np.ones((len(stimuli_list), 1)) * np.nan
 correct_responses = exp_df['Correct'].values
 for trial_count, stimulus in enumerate(stimuli_list):
-
+    text_acc = visual.TextStim(win, text="")
     # Start a trial and present stimulus
     img_startTime = stimulus_clock.getTime() - exp_startTime
     onset_times[trial_count] = img_startTime
@@ -139,7 +140,7 @@ for trial_count, stimulus in enumerate(stimuli_list):
             win.close()
             core.quit()
 
-
+        text_acc.draw()
         stimulus.draw()
         win.flip()
         #TODO trigger（stim_on)

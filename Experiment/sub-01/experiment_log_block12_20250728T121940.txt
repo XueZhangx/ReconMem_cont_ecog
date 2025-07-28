@@ -1,0 +1,4 @@
+Session Start Time: 2025-07-28 12:19:40.586389
+Subject: 1 
+ BLock: 12 
+Experiment started at 6.307287931442261
