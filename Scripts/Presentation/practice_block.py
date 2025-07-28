@@ -9,7 +9,7 @@ from datetime import datetime
 exp_config = configparser.ConfigParser()
 exp_config.read('config')
 sub = int(sys.argv[1])
-block = int(sys.argv[2])
+block = 13
 
 exp_dir = exp_config['DIR']['exp_dir']
 stimuli_dir = exp_config['DIR']['stimuli_dir']
@@ -27,7 +27,18 @@ test_screen_size = (int(exp_config['EXP']['test_screen_width']), int(exp_config[
 exp_screen_size = (int(exp_config['EXP']['exp_screen_width']), int(exp_config['EXP']['exp_screen_height']))
 
 # Load dataframe
-exp_df = pd.read_csv(curr_block_dir)
+exp_df = pd.read_csv(curr_block_dir).iloc[:20]
+# Add a correct response column
+exp_df['Correct'] = np.nan
+for curr_row in exp_df.iterrows():
+    if curr_row[0] == 0:
+        exp_df.loc[curr_row[0], 'Correct'] = 0
+    else:
+        curr_img = curr_row[1]['image']
+        if curr_img in exp_df.iloc[:curr_row[0]]['image'].values:
+            exp_df.loc[curr_row[0], 'Correct'] = 1
+        else:
+            exp_df.loc[curr_row[0], 'Correct'] = 0
 
 # Create a logfile for current run
 timestamp = datetime.now().strftime('%Y%m%dT%H%M%S')google translate
@@ -112,6 +123,7 @@ onset_times = np.ones((len(stimuli_list), 1)) * np.nan
 offset_times = np.ones((len(stimuli_list), 1)) * np.nan
 responses = np.ones((len(stimuli_list), 1)) * np.nan
 RTs = np.ones((len(stimuli_list), 1)) * np.nan
+correct_responses = exp_df['Correct'].values
 for trial_count, stimulus in enumerate(stimuli_list):
 
     # Start a trial and present stimulus
@@ -142,11 +154,19 @@ for trial_count, stimulus in enumerate(stimuli_list):
                                                          keys[0]))
             print('Trial {}, Responded {}'.format(trial_count,
                                                        keys[0]))
-
+            text_pos = (0, 0.5)
             if firstKeypress:
                 responses[trial_count] = keys[0]
                 RTs[trial_count] = stimulus_clock.getTime() - exp_startTime - img_startTime
+                if int(correct_responses[trial_count]) == int(keys[0]):
+                    text_acc = visual.TextStim(win, text="正确", color='blue', pos=text_pos)
+                elif int(correct_responses[trial_count]) != int(keys[0]):
+                    text_acc = visual.TextStim(win, text="错误", color='red', pos=text_pos)
+                stimulus.draw()
+                text_acc.draw()
+                win.flip()
                 firstKeypress = False
+
 
         if stimulus_clock.getTime() - exp_startTime - img_startTime >= stimulus_duration:
             break  # Exit the loop after presenting for the specified duration
