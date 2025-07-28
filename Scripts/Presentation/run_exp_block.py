@@ -8,8 +8,8 @@ from datetime import datetime
 # Read config
 exp_config = configparser.ConfigParser()
 exp_config.read('config')
-sub = sys.argv[1]
-block = sys.argv[2]
+sub = int(sys.argv[1])
+block = int(sys.argv[2])
 
 exp_dir = exp_config['DIR']['exp_dir']
 stimuli_dir = exp_config['DIR']['stimuli_dir']
@@ -30,13 +30,13 @@ exp_screen_size = (int(exp_config['EXP']['exp_screen_width']), int(exp_config['E
 exp_df = pd.read_csv(curr_block_dir)
 
 # Create a logfile for current run
-timestamp = datetime.now().strftime('%Y%m%dT%H%M%S')
+timestamp = datetime.now().strftime('%Y%m%dT%H%M%S')google translate
+ses_info = 'Subject: {} \n BLock: {} \n'.format(sub, block)
 log_file = open(os.path.join(curr_sub_dir,
-                             'experiment_log_block%02d_%s.txt' % (block, timestamp), 'a'))
+                             'experiment_log_block%02d_%s.txt' % (block, timestamp)), 'a')
 # Log info about this run
 date_line = 'Session Start Time: {}\n'.format(datetime.now())
 log_file.write(date_line)
-ses_info = 'Subject: {} \n Session: {} \n'.format(sub, ses)
 log_file.write(ses_info)
 
 # Create a window for your experiment
@@ -74,7 +74,7 @@ countdown_start = stimulus_clock.getTime()
 while stimulus_clock.getTime() - countdown_start < pre_exp_time:
     count_down = int(np.ceil(pre_exp_time - (stimulus_clock.getTime() - countdown_start)))
     instruction_text = visual.TextStim(win,
-                                       text="实验将在{}秒后开始。\n 请准备好。".format(count_down),
+                                       text="实验将在{}秒后开始。\n 请准备好。\n".format(count_down),
                                        color='white')
     # Display instructions
     instruction_text.draw()
